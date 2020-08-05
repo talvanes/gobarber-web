@@ -1,5 +1,6 @@
 import React from 'react';
-import { FiArrowLeft, FiMail, FiUser, FiLock } from "react-icons/fi";
+import { FiArrowLeft, FiMail, FiUser, FiLock } from 'react-icons/fi';
+import { Form } from '@unform/web';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -8,32 +9,43 @@ import logoImage from '../../assets/logo.svg';
 
 import { Container, Content, Background } from './styles';
 
-const SignIn: React.FC = () => (
-  <Container>
-    <Background />
+const SignIn: React.FC = () => {
+  function handleSumbit(data: object): void {
+    console.log(data);
+  }
 
-    <Content>
-      <img src={logoImage} alt="GoBarber"/>
+  return (
+    <Container>
+      <Background />
 
-      <form>
-        <h1>Faça seu cadastro</h1>
+      <Content>
+        <img src={logoImage} alt="GoBarber" />
 
-        <Input name="name" icon={FiUser} type="text" placeholder="Nome" />
-        <Input name="email" icon={FiMail} type="text" placeholder="E-mail" />
+        <Form onSubmit={handleSumbit}>
+          <h1>Faça seu cadastro</h1>
 
-        <Input name="password" icon={FiLock} type="password" placeholder="Senha" />
+          <Input name="name" icon={FiUser} type="text" placeholder="Nome" />
+          <Input name="email" icon={FiMail} type="text" placeholder="E-mail" />
 
-        <Button type="submit">Cadastrar</Button>
+          <Input
+            name="password"
+            icon={FiLock}
+            type="password"
+            placeholder="Senha"
+          />
 
-        <a href="forgot">Esqueci minha senha</a>
-      </form>
+          <Button type="submit">Cadastrar</Button>
 
-      <a href="login">
-        <FiArrowLeft />
-        Voltar ao Login
-      </a>
-    </Content>
-  </Container>
-);
+          <a href="forgot">Esqueci minha senha</a>
+        </Form>
+
+        <a href="login">
+          <FiArrowLeft />
+          Voltar ao Login
+        </a>
+      </Content>
+    </Container>
+  );
+};
 
 export default SignIn;

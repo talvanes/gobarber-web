@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { shade } from "polished";
+import { shade } from 'polished';
 
 import signInBackground from '../../assets/sign-in-background.png';
 
@@ -42,7 +42,7 @@ export const Content = styled.div`
       transition: color 0.2s;
 
       &:hover {
-        color: ${shade(0.2, '#f4dee8')}
+        color: ${shade(0.2, '#f4dee8')};
       }
     }
   }
@@ -62,7 +62,7 @@ export const Content = styled.div`
     }
 
     &:hover {
-      color: ${shade(0.2, '#ff9000')}
+      color: ${shade(0.2, '#ff9000')};
     }
   }
 `;
