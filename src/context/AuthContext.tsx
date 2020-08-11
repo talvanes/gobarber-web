@@ -12,12 +12,13 @@ interface SignInCredentials {
   password: string;
 }
 
-interface AuthContextState {
+interface AuthContextData {
   user: Record<string, unknown>;
   signIn(credentials: SignInCredentials): Promise<void>;
+  signOut(): void;
 }
 
-const AuthContext = createContext<AuthContextState>({} as AuthContextState);
+const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
   // Authenticated User data
@@ -48,14 +49,23 @@ const AuthProvider: React.FC = ({ children }) => {
     setData({ token, user });
   }, []);
 
+  const signOut = useCallback(() => {
+    // remove user authentication
+    localStorage.removeItem('@GoBarber:token');
+    localStorage.removeItem('@GoBarber:user');
+
+    // unset user info
+    setData({} as AuthState);
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn }}>
+    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-function useAuth(): AuthContextState {
+function useAuth(): AuthContextData {
   const context = useContext(AuthContext);
 
   if (!context) {

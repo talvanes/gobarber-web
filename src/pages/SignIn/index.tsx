@@ -25,8 +25,7 @@ const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   // Context: AuthContext (user's credentials)
-  const { user, signIn } = useAuth();
-  console.log(user);
+  const { signIn } = useAuth();
 
   // Submit Event Handler
   const handleSumbit = useCallback(
