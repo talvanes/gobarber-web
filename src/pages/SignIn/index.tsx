@@ -4,7 +4,8 @@ import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
-import { useAuth } from '../../hooks/AuthContext';
+import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
@@ -24,8 +25,10 @@ const SignIn: React.FC = () => {
   // Form Reference
   const formRef = useRef<FormHandles>(null);
 
-  // Context: AuthContext (user's credentials)
+  // Hook: auth (user's credentials)
   const { signIn } = useAuth();
+  // Hook: toast (toast notifications)
+  const { addToast } = useToast();
 
   // Submit Event Handler
   const handleSumbit = useCallback(
@@ -48,18 +51,23 @@ const SignIn: React.FC = () => {
         });
 
         // and sign in
-        signIn({
+        await signIn({
           email: data.email,
           password: data.password,
         });
       } catch (err) {
         // otherwise, show all errors
-        const validationErrors = getValidationErrors(err);
+        if (err instanceof Yup.ValidationError) {
+          // validation errors
+          const validationErrors = getValidationErrors(err);
+          formRef.current?.setErrors(validationErrors);
+        }
 
-        formRef.current?.setErrors(validationErrors);
+        // TODO add toast
+        addToast();
       }
     },
-    [signIn]
+    [signIn, addToast]
   );
 
   return (
