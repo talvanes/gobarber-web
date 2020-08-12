@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
@@ -30,6 +30,8 @@ const SignIn: React.FC = () => {
   const { signIn } = useAuth();
   // Hook: toast (toast notifications)
   const { addToast } = useToast();
+  // Hook: History object
+  const history = useHistory();
 
   // Submit Event Handler
   const handleSumbit = useCallback(
@@ -56,6 +58,9 @@ const SignIn: React.FC = () => {
           email: data.email,
           password: data.password,
         });
+
+        // head for dashboard
+        history.push('/dashboard');
       } catch (err) {
         // otherwise, show all errors
         if (err instanceof Yup.ValidationError) {
@@ -75,7 +80,7 @@ const SignIn: React.FC = () => {
         });
       }
     },
-    [signIn, addToast]
+    [signIn, addToast, history]
   );
 
   return (
