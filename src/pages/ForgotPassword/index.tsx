@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiLogIn, FiMail } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
@@ -15,12 +15,16 @@ import Button from '../../components/Button';
 import logoImage from '../../assets/logo.svg';
 
 import { Container, Content, AnimationContainer, Background } from './styles';
+import api from '../../services/api';
 
 interface ForgotPasswordFormData {
   email: string;
 }
 
 const ForgotPassword: React.FC = () => {
+  // Loading state
+  const [loading, setLoading] = useState(false);
+
   // Form Reference
   const formRef = useRef<FormHandles>(null);
 
@@ -31,6 +35,9 @@ const ForgotPassword: React.FC = () => {
   const handleSumbit = useCallback(
     async (data: ForgotPasswordFormData) => {
       try {
+        // now, it is loading
+        setLoading(true);
+
         // start with no errors
         formRef.current?.setErrors({});
 
@@ -47,9 +54,17 @@ const ForgotPassword: React.FC = () => {
         });
 
         // recover password
+        await api.post('/password/forgot', {
+          email: data.email,
+        });
 
-        // head for dashboard
-        // history.push('/dashboard');
+        // show success message
+        addToast({
+          type: 'success',
+          title: 'E-mail de recuperação enviado',
+          description:
+            'Enviamos e-mail para confirmar a recuperação de senha. Verifique sua caixa de entrada.',
+        });
       } catch (err) {
         // otherwise, show all errors
         if (err instanceof Yup.ValidationError) {
@@ -66,6 +81,9 @@ const ForgotPassword: React.FC = () => {
           title: 'Erro na recuperação de senha. Tente novamente.',
           description: 'Ocorreu um erro ao tentar recuperar a senha.',
         });
+      } finally {
+        // Finally, it stopped loading
+        setLoading(false);
       }
     },
     [addToast]
@@ -87,7 +105,9 @@ const ForgotPassword: React.FC = () => {
               placeholder="E-mail"
             />
 
-            <Button type="submit">Entrar</Button>
+            <Button loading={loading} type="submit">
+              Entrar
+            </Button>
           </Form>
 
           <Link to="/">
