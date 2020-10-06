@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { FiLock } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
@@ -15,6 +15,7 @@ import Button from '../../components/Button';
 import logoImage from '../../assets/logo.svg';
 
 import { Container, Content, AnimationContainer, Background } from './styles';
+import api from '../../services/api';
 
 interface ResetPasswordFormData {
   password: string;
@@ -29,6 +30,8 @@ const ResetPassword: React.FC = () => {
   const { addToast } = useToast();
   // Hook: History object
   const history = useHistory();
+  // Hook: Location object
+  const location = useLocation();
 
   // Submit Event Handler
   const handleSumbit = useCallback(
@@ -51,7 +54,21 @@ const ResetPassword: React.FC = () => {
           abortEarly: false,
         });
 
+        // check token first
+        const token = location.search.replace('?token=', '');
+
+        if (!token) {
+          throw new Error();
+        }
+
         // and reset password
+        const { password, password_confirmation } = data;
+
+        await api.post('/password/reset', {
+          password,
+          password_confirmation,
+          token,
+        });
 
         // head for sign in page
         history.push('/');
@@ -73,7 +90,7 @@ const ResetPassword: React.FC = () => {
         });
       }
     },
-    [addToast, history]
+    [addToast, history, location.search]
   );
 
   return (
@@ -83,7 +100,7 @@ const ResetPassword: React.FC = () => {
           <img src={logoImage} alt="GoBarber" />
 
           <Form ref={formRef} onSubmit={handleSumbit}>
-            <h1>Redefinição de senha</h1>
+            <h1>Redefinir senha</h1>
 
             <Input
               name="password"
