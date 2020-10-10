@@ -56,3 +56,96 @@ export const Profile = styled.div`
     }
   }
 `;
+
+export const Content = styled.main`
+  max-width: 70rem;
+  margin: 4rem auto;
+  display: flex;
+`;
+
+export const Schedule = styled.div`
+  flex: 1;
+  margin-right: 7.5rem;
+
+  h1 {
+    font-size: 2.25em;
+  }
+
+  p {
+    margin-top: 0.5rem;
+    color: #ff9000;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+
+    span {
+      display: flex;
+      align-items: center;
+    }
+
+    span + span::before {
+      content: '';
+      width: 1px;
+      height: 0.75rem;
+      background-color: #ff9000;
+      margin: 0 0.5rem;
+    }
+  }
+`;
+
+export const NextAppointment = styled.div`
+  margin-top: 4rem;
+
+  > strong {
+    color: #999591;
+    font-size: 1.25em;
+    font-weight: 400;
+  }
+
+  div {
+    background-color: #3e3b47;
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-radius: 0.625em;
+    margin-top: 1.5rem;
+    position: relative;
+
+    &::before {
+      position: absolute;
+      content: '';
+      height: 80%;
+      width: 1px;
+      left: 0;
+      top: 10%;
+      background: #ff9000;
+    }
+
+    img {
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
+    }
+
+    strong {
+      margin-left: 1.5rem;
+      color: white;
+    }
+
+    span {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      color: #999591;
+
+      svg {
+        color: #ff9000;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+`;
+
+export const Calendar = styled.aside`
+  width: 23.75rem;
+`;
