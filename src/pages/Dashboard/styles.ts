@@ -146,6 +146,62 @@ export const NextAppointment = styled.div`
   }
 `;
 
+export const Section = styled.section`
+  margin-top: 3rem;
+
+  > strong {
+    color: #999591;
+    font-size: 1.25em;
+    line-height: 1.625em;
+    border-bottom: 1px solid #3e3b47;
+    display: block;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+`;
+
+export const Appointment = styled.div`
+  display: flex;
+  align-items: center;
+
+  & + div {
+    margin-top: 1rem;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    color: #f4ede8;
+
+    svg {
+      color: #ff9000;
+      margin-right: 0.5rem;
+    }
+  }
+
+  div {
+    flex: 1;
+    background-color: #3e3b47;
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-radius: 0.625em;
+    margin-left: 1.5rem;
+
+    img {
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 50%;
+    }
+
+    strong {
+      margin-left: 1.5rem;
+      color: white;
+      font-size: 1.25rem;
+    }
+  }
+`;
+
 export const Calendar = styled.aside`
   width: 23.75rem;
 `;
